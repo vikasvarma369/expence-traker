@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A backend for expence-tracker with graph ql implementation",
   "main": "index.js",
+  "type":"module",
   "scripts": {
     "start": "node backend/index.js",
     "dev": "nodemon backend/index.js"

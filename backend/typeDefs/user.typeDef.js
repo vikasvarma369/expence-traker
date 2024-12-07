@@ -36,3 +36,5 @@ const userTypeDefs = `#graphql
         message: String!
     }
 `;
+
+export default userTypeDefs;
