@@ -1,6 +1,10 @@
 import express from 'express';
 import http from 'http';
 import cors from 'cors';
+import { configDotenv } from "dotenv";
+import connectDb  from "./db/dbConnection.js";
+
+
 
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
@@ -11,6 +15,9 @@ import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHt
 import mergedTypeDefs from "./typeDefs/index.js";
 import mergedResolvers from "./resolvers/index.js"
 
+
+// dotenv configuration
+configDotenv();
 
 // Required logic for integrating with Express
 const app = express();
