@@ -4,17 +4,21 @@ import cors from 'cors';
 import { configDotenv } from "dotenv";
 import connectDb  from "./db/dbConnection.js";
 
-
-
+//  import Apollo Server and expressMiddleware
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
-
 
 // import merged typeDefs and Resolvers
 import mergedTypeDefs from "./typeDefs/index.js";
 import mergedResolvers from "./resolvers/index.js"
 
+// improt express session and connect-mongodb-session for session management
+import session from 'express-session';
+import connectMongo from 'connect-mongodb-session';
+
+// import passport for authentication
+import passport from 'passport';
 
 // dotenv configuration
 configDotenv();
@@ -30,10 +34,36 @@ const server = new ApolloServer({
     plugins: [ApolloServerPluginDrainHttpServer({httpServer})],
 })
 
+// Start the apollo server
+await server.start();
+
 // Connect to Database
 await connectDb();
 
-await server.start();
+// Connect to MongoDB session store
+const MongoDBStore = connectMongo(session);
+
+// Create session store 
+const store = new MongoDBStore({
+    uri: process.env.MONGO_URI,
+    collection: "sessions"
+});
+
+// Catch errors
+store.on('error', (err)=> console.log(err));
+
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false,
+        cookie:{
+            maxAge: 1000 * 60 * 60 * 24 * 2 ,
+            httpOnly: true
+        },
+        store: store,
+    })
+)
 
 // Set up our Express middleware to handle CORS, body parsing,
 // and our expressMiddleware function.
