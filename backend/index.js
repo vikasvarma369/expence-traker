@@ -9,9 +9,8 @@ import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 
-// import merged typeDefs and Resolvers
-import mergedTypeDefs from "./typeDefs/index.js";
-import mergedResolvers from "./resolvers/index.js"
+import { buildContext } from "graphql-passport";
+
 
 // improt express session and connect-mongodb-session for session management
 import session from 'express-session';
@@ -20,8 +19,20 @@ import connectMongo from 'connect-mongodb-session';
 // import passport for authentication
 import passport from 'passport';
 
+
+// import merged typeDefs and Resolvers
+import mergedTypeDefs from "./typeDefs/index.js";
+import mergedResolvers from "./resolvers/index.js"
+
+// import configure passport
+import { configurePassport } from './passport/passport.config.js'
+
+
 // dotenv configuration
 configDotenv();
+
+// passport configuration
+configurePassport();
 
 // Required logic for integrating with Express
 const app = express();
@@ -65,16 +76,23 @@ app.use(
     })
 )
 
+// initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Set up our Express middleware to handle CORS, body parsing,
 // and our expressMiddleware function.
 app.use(
     '/',
-    cors(),
+    cors({
+        origin: "http://localhost:3000",
+        credentials: true,
+    }),
     express.json(),
     // expressMiddleware accepts the same arguments:
     // an Apollo Server instance and optional configuration options
     expressMiddleware(server, {
-      context: async ({ req }) => (req),
+      context: async ({req, res}) => buildContext({req, res}),
     }),
   );
 
