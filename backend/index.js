@@ -30,6 +30,8 @@ const server = new ApolloServer({
     plugins: [ApolloServerPluginDrainHttpServer({httpServer})],
 })
 
+// Connect to Database
+await connectDb();
 
 await server.start();
 
