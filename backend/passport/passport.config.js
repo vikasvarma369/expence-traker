@@ -1,6 +1,6 @@
 import passport from "passport";
 import bycrypt from "bcryptjs";
-import { User } from "../models/user.model.js";
+import User  from "../models/user.model.js";
 import { GraphQLLocalStrategy} from "graphql-passport";
 
 
