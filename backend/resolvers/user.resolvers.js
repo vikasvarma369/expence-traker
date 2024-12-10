@@ -87,14 +87,30 @@ const userResolver = {
         }
     },
     Query: {
-        users: (_, {req, res})=>{
-            return users
+        authUser: async(_,__,context)=>{
+            try {
+                // get user
+                const user = await context.getUser();
+                return user;
+            } catch (err) {
+                console.error("Error authenticating user", err);
+                throw new Error(err.message || "Error getting user");
+            }
         },
+        user: async(_, {userId})=>{
+            // TODO: if user is authorize add condition
+            try {
+                const user = await User.findById(userId);
+                return user;
+            } catch (err) {
+                console.error("Error getting user", err);
+                throw new Error(err.message || "Error getting user");
+            }
 
-        user: (_, args)=>{
-            return users.find((user)=> user._id === args.userId);
         }
     },
+
+    // TODO: add user Transaction relation
 }
 
 export default userResolver
