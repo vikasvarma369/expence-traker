@@ -20,7 +20,7 @@ const userResolver = {
                 }
 
                 // Hash password
-                const salt = await bycrypt.getSalt(10);
+                const salt = await bycrypt.genSalt(10);
                 const hashPassword = await bycrypt.hash(password, salt);
 
                 const boyProfilePic = `${process.env.BOY_PIC}${username}`
@@ -41,7 +41,7 @@ const userResolver = {
                 return newUser;
             } catch (err) {
                 console.error("Error signing up user", err);
-                throw new Error(err.message || "Internal server error");
+                throw new Error("User with this username already exists");
             }
         },
         // login Mutation
