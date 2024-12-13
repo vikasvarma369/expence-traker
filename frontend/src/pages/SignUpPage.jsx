@@ -17,10 +17,18 @@ function SignUpPage(){
 	});
 
 	// Mutation
-	const [signUp, {loading, error}] = useMutation(SIGN_UP);
+	const [signUp, {loading, error}] = useMutation(SIGN_UP, {
+		refetchQueries: ["GetAuthenticatedUser"]
+	});
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-	
+	if(!signUpData.username || !signUpData.password || !signUpData.name || !signUpData.gender){
+		return toast.error("Please fill in all fields")
+	}
+
+	if(signUpData.username.length < 3){
+		return toast.error("Username must be at least 3 characters long")
+	}
 		try {
 			console.log(signUpData)
 			await signUp({
@@ -28,13 +36,7 @@ function SignUpPage(){
 					input: signUpData
 				}
 			})
-			setSignUpData({
-				name: "",
-				username: "",
-				password: "",
-				gender: "",
-			})
-			toast.success("Signed up successfully");
+			// toast.success("Signed up successfully");
 		} catch (err) {
 			console.log("Error signing up", err);
 			toast.error(err.message);
