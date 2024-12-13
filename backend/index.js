@@ -39,17 +39,6 @@ const app = express();
 
 const httpServer = http.createServer(app);
 
-const server = new ApolloServer({
-    typeDefs: mergedTypeDefs,
-    resolvers: mergedResolvers,
-    plugins: [ApolloServerPluginDrainHttpServer({httpServer})],
-})
-
-// Start the apollo server
-await server.start();
-
-// Connect to Database
-await connectDb();
 
 // Connect to MongoDB session store
 const MongoDBStore = connectMongo(session);
@@ -69,7 +58,7 @@ app.use(
         resave: false,
         saveUninitialized: false,
         cookie:{
-            maxAge: 1000 * 60 * 60 * 24 * 2 ,
+            maxAge: 1000 * 60 * 60 * 24 * 7,
             httpOnly: true
         },
         store: store,
@@ -79,6 +68,16 @@ app.use(
 // initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Create Apollo Server
+const server = new ApolloServer({
+    typeDefs: mergedTypeDefs,
+    resolvers: mergedResolvers,
+    plugins: [ApolloServerPluginDrainHttpServer({httpServer})],
+})
+
+// Start the apollo server
+await server.start();
 
 // Set up our Express middleware to handle CORS, body parsing,
 // and our expressMiddleware function.
@@ -92,11 +91,22 @@ app.use(
     // expressMiddleware accepts the same arguments:
     // an Apollo Server instance and optional configuration options
     expressMiddleware(server, {
-      context: async ({req, res}) => buildContext({req, res}),
+      context: async ({req, res}) => {
+        // console.log("Request Headers:", req.headers);
+    // console.log("Session:", req.session);
+    console.log(req);
+    console.log(res);
+    console.log("User:", req.user); // Ensure this is populated by Passport
+    return await buildContext({ req, res });
+      }
     }),
   );
 
   await new Promise((resolve) =>
     httpServer.listen({ port: 4000 }, resolve),
   );
+
+  // Connect to Database
+    await connectDb();
+
   console.log(`🚀 Server ready at http://localhost:4000/graphql`);

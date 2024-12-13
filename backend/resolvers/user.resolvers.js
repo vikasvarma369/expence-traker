@@ -1,11 +1,10 @@
-import { users } from "../dummyData/data.js"
 import User from "../models/user.model.js";
-import bycrypt from "bcryptjs";
+import bcrypt from "bcryptjs";
 
 const userResolver = {
     Mutation: {
-        // signUp Mutation
-        signUp: async(_,{ input },context)=>{
+        // signup mutation
+        signUp: async(_,{ input }, context)=>{
             try {
                 const {username, name, password, gender} = input;
 
@@ -13,15 +12,19 @@ const userResolver = {
                     throw new Error("All fields are required");
                 }
 
-                const existingUser = await User.findOne({username});
+                if(username.length < 3){
+                    throw new Error("Username must be at least 3 characters long"); 
+                }
+
+                const existingUser = await User.findOne({ username });
 
                 if(existingUser){
                     throw new Error("User already exists!");
                 }
 
                 // Hash password
-                const salt = await bycrypt.genSalt(10);
-                const hashPassword = await bycrypt.hash(password, salt);
+                const salt = await bcrypt.genSalt(10);
+                const hashPassword = await bcrypt.hash(password, salt);
 
                 const boyProfilePic = `${process.env.BOY_PIC}${username}`
                 const girlProfilePic = `${process.env.GIRL_PIC}${username}`
@@ -34,19 +37,21 @@ const userResolver = {
                     profilePicture: gender === "male" ? boyProfilePic : girlProfilePic
                 })
 
-                const savedUser = await newUser.save();
-                console.log("Only For Testing purpose save what return", savedUser);
+                await newUser.save();
+                // console.log("Only For Testing purpose save what return", savedUser);
 
-                context.login(newUser);
+                await context.login(newUser);
                 return newUser;
             } catch (err) {
                 console.error("Error signing up user", err);
-                throw new Error("User with this username already exists");
+                throw new Error(err.message || "Internal server error");
             }
         },
+
         // login Mutation
-        login: async(_, {input}, context)=>{
+        login: async(_, { input }, context)=>{
             try {
+                // console.log("login input", input);
                 const {username, password} = input;
                 if(!username || !password){
                     throw new Error("All fields are required");
@@ -54,12 +59,8 @@ const userResolver = {
                 // checking authentication
                 const { user } = await context.authenticate("graphql-local", {username, password});
 
-                if(!user){
-                    throw new Error("Invalid username or password");
-                }else{
-                    context.login(user);
-                    return user;
-                }
+                await context.login(user);
+                return user;
             } catch (err) {
                 console.error("Error logging up user", err);
                 throw new Error(err.message || "Internal server error");
@@ -87,13 +88,22 @@ const userResolver = {
         }
     },
     Query: {
-        authUser: async(_,__,context)=>{
+        authUser: async (_, __, context)=>{
+            // console.log("Context:", context);
             try {
+                // console.log("Context:", context);
                 // get user
                 const user = await context.getUser();
+                console.log("context.getUser()", user);
+                  
+                console.log(user)
+                if(!user){
+                    throw new Error("Unauthorized");
+                }
+                console.log("backend",user);
                 return user;
             } catch (err) {
-                console.error("Error authenticating user", err);
+                console.error("Error in authUser", err);
                 throw new Error(err.message || "Error getting user");
             }
         },
