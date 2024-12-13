@@ -18,7 +18,7 @@ export const configurePassport = async()=>{
                 console.log("User not found");
                 return done(null, false);
             }
-            console.log("User deserialized:", user);
+            // console.log("User deserialized:", user);
             done(null, user);
         } catch (error) {
             console.log(error);

@@ -92,12 +92,7 @@ app.use(
     // an Apollo Server instance and optional configuration options
     expressMiddleware(server, {
       context: async ({req, res}) => {
-        // console.log("Request Headers:", req.headers);
-    // console.log("Session:", req.session);
-    console.log(req);
-    console.log(res);
-    console.log("User:", req.user); // Ensure this is populated by Passport
-    return await buildContext({ req, res });
+        return await buildContext({ req, res });
       }
     }),
   );

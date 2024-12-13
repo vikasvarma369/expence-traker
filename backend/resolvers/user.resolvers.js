@@ -38,7 +38,6 @@ const userResolver = {
                 })
 
                 await newUser.save();
-                // console.log("Only For Testing purpose save what return", savedUser);
 
                 await context.login(newUser);
                 return newUser;
@@ -51,7 +50,6 @@ const userResolver = {
         // login Mutation
         login: async(_, { input }, context)=>{
             try {
-                // console.log("login input", input);
                 const {username, password} = input;
                 if(!username || !password){
                     throw new Error("All fields are required");
@@ -89,18 +87,12 @@ const userResolver = {
     },
     Query: {
         authUser: async (_, __, context)=>{
-            // console.log("Context:", context);
             try {
-                // console.log("Context:", context);
                 // get user
                 const user = await context.getUser();
-                console.log("context.getUser()", user);
-                  
-                console.log(user)
                 if(!user){
                     throw new Error("Unauthorized");
                 }
-                console.log("backend",user);
                 return user;
             } catch (err) {
                 console.error("Error in authUser", err);
