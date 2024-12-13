@@ -34,7 +34,6 @@ function HomePage() {
 	const handleLogout = async() => {
 		try {
 			await logout();
-
 		} catch (error) {
 			console.log("Error logging out", error);
 			toast.error(error.message);
