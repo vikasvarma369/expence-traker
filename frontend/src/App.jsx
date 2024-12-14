@@ -12,9 +12,9 @@ import { Toaster } from "react-hot-toast"
 import { Navigate } from "react-router-dom"
 function App() {
 	const {loading, data, error} = useQuery(GET_AUTHENTICATED_USER);
-	console.log(loading);
-	console.log(data);
-	console.log(error);
+	// console.log(loading);
+	// console.log(data);
+	// console.log(error);
 
 	const authUser = data?.authUser;
 	console.log(authUser);
