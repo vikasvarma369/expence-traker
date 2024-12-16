@@ -11,6 +11,7 @@ import { LOGOUT } from '../graphql/mutations/user.mutation';
 import { GET_TRANSACTION_STATISTICS } from '../graphql/queries/transaction.query';
 import { GET_AUTHENTICATED_USER } from '../graphql/queries/user.query';
 
+import { categoryColors } from "../assets/categoryColors.js";
 ChartJS.register(ArcElement, Tooltip, Legend);
 function HomePage(){
 	// get user query
@@ -44,18 +45,12 @@ function HomePage(){
 			const backgroundColors = [];
 			const borderColors = []
 
-			categories.forEach((category)=>{
-				if (category === "saving") {
-					backgroundColors.push("rgba(75, 192, 192)");
-					borderColors.push("rgba(75, 192, 192)");
-				} else if (category === "expense") {
-					backgroundColors.push("rgba(255, 99, 132)");
-					borderColors.push("rgba(255, 99, 132)");
-				} else if (category === "investment") {
-					backgroundColors.push("rgba(54, 162, 235)");
-					borderColors.push("rgba(54, 162, 235)");
+			categories.forEach((category) => {
+				if (categoryColors.hasOwnProperty(category)) {
+					backgroundColors.push(categoryColors[category]);
+					borderColors.push(categoryColors[category]);
 				}
-			})
+			});
 			// set and update chart data
 			setChartData((prev)=>({
 				labels: categories,

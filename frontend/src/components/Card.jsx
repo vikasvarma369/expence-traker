@@ -12,12 +12,7 @@ import { DELETE_TRANSACTION } from "../graphql/mutations/transaction.mutation.js
 import toast from "react-hot-toast";
 import { GET_AUTHENTICATED_USER } from "../graphql/queries/user.query.js";
 
-const categoryColorMap = {
-	saving: "from-green-700 to-green-400",
-	expense: "from-pink-800 to-pink-600",
-	investment: "from-blue-700 to-blue-400",
-	// Add more categories and corresponding color classes as needed
-};
+import { categoryColorMap } from "../assets/categoryColorMap.js";
 
 function Card({ transaction }){
 	// profile info query
