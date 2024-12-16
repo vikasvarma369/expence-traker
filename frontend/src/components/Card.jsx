@@ -7,9 +7,10 @@ import { HiPencilAlt } from "react-icons/hi";
 import { Link } from "react-router-dom";
 
 import { formateDateTimestamp } from "../utils/formateDateTimestamp.js";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { DELETE_TRANSACTION } from "../graphql/mutations/transaction.mutation.js";
 import toast from "react-hot-toast";
+import { GET_AUTHENTICATED_USER } from "../graphql/queries/user.query.js";
 
 const categoryColorMap = {
 	saving: "from-green-700 to-green-400",
@@ -19,6 +20,9 @@ const categoryColorMap = {
 };
 
 function Card({ transaction }){
+	// profile info query
+	const {data} = useQuery(GET_AUTHENTICATED_USER);
+	// console.log("data in card", data);
 	const [deleteTransaction, { loading}] = useMutation(DELETE_TRANSACTION, {
 		refetchQueries: ["GetTransactions", "GetTransactionStatistics"],
 	});
@@ -84,7 +88,8 @@ function Card({ transaction }){
 				<div className='flex justify-between items-center'>
 					<p className='text-xs text-black font-bold'>{formattedDate}</p>
 					<img
-						src={"https://tecdn.b-cdn.net/img/new/avatars/2.webp"}
+						src={data?.
+							authUser?.profilePicture}
 						className='h-8 w-8 border rounded-full'
 						alt=''
 					/>

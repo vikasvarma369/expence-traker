@@ -4,7 +4,7 @@ import Card from "./Card.jsx";
 
 
 function Cards(){
-	const {loading, error, data} = useQuery(GET_TRANSACTIONS);
+	const {loading,  data} = useQuery(GET_TRANSACTIONS);
 
 	// TODO: handle loading add skeleton and also handle error
 	console.log(data);
