@@ -2,19 +2,24 @@ import React, { useState, useEffect } from 'react'
 import { MdLogout } from "react-icons/md";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import toast from "react-hot-toast"
 
 import TransactionForm from "../components/TransactionForm";
 import Cards from "../components/Cards";
 import { useMutation, useQuery } from '@apollo/client';
 import { LOGOUT } from '../graphql/mutations/user.mutation';
-import toast from "react-hot-toast"
 import { GET_TRANSACTION_STATISTICS } from '../graphql/queries/transaction.query';
+import { GET_AUTHENTICATED_USER } from '../graphql/queries/user.query';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
-function HomePage() {
+function HomePage(){
+	// get user query
+	const {data: authUserData} = useQuery(GET_AUTHENTICATED_USER);
+	
+	// get transaction statistics query
 	const {data} = useQuery(GET_TRANSACTION_STATISTICS);
-	console.log("category data",data);
 
+	// for chart
 	const [chartData, setChartData] = useState({
 		labels: [],
 		datasets: [
@@ -67,10 +72,11 @@ function HomePage() {
 		}
 	}, [data]);
 
+	// logout mutation
 	const [logout, {loading, client}] = useMutation(LOGOUT,{
 		refetchQueries: ["GetAuthenticatedUser"]
 	});
-
+	// logout
 	const handleLogout = async() => {
 		try {
 			await logout();
@@ -89,7 +95,7 @@ function HomePage() {
 						Spend wisely, track wisely
 					</p>
 					<img
-						src={"https://tecdn.b-cdn.net/img/new/avatars/2.webp"}
+						src={authUserData?.authUser?.profilePicture}
 						className='w-11 h-11 rounded-full border cursor-pointer'
 						alt='Avatar'
 					/>
@@ -98,10 +104,12 @@ function HomePage() {
 					{loading && <div className='w-6 h-6 border-t-2 border-b-2 mx-2 rounded-full animate-spin'></div>}
 				</div>
 				<div className='flex flex-wrap w-full justify-center items-center gap-6'>
-					<div className='h-[330px] w-[330px] md:h-[360px] md:w-[360px]  '>
-						<Doughnut data={chartData} />
-					</div>
-
+					{
+						data?.categoroyStatistics?.length > 0 && (
+						<div className='h-[330px] w-[330px] md:h-[360px] md:w-[360px]  '>
+							<Doughnut data={chartData} />
+						</div>
+					)}
 					<TransactionForm/>
 				</div>
 				<Cards />
