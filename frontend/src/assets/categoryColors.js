@@ -6,7 +6,7 @@ export const categoryColors = {
   "entertainment": "rgba(255, 159, 64)",  // Warm orange for entertainment
 
   // Expenses category
-  "expense": "rgba(255, 99, 132)",  // Soft red for expenses
+  "expense": "rgba(255, 87, 34)",  // Deep orange for expenses
 
   // Shopping category
   "shopping": "rgba(54, 162, 235)",  // Calm blue for shopping
@@ -18,80 +18,80 @@ export const categoryColors = {
   "utilities": "rgba(153, 102, 255)",  // Lavender for utilities
 
   // Transport category
-  "transport": "rgba(255, 159, 64)",  // Orange for transport
+  "transport": "rgba(255, 193, 7)",  // Bright yellow for transport
 
   // Rent category
-  "rent": "rgba(255, 99, 132)",  // Soft red for rent
+  "rent": "rgba(233, 30, 99)",  // Pink for rent
 
   // Maintenance category
-  "maintenance": "rgba(0, 204, 102)",  // Fresh green for maintenance
+  "maintenance": "rgba(56, 142, 60)",  // Dark green for maintenance
 
   // Movies category
-  "movies": "rgba(54, 162, 235)",  // Cool blue for movies
+  "movies": "rgba(63, 81, 181)",  // Indigo blue for movies
 
   // Subscriptions category
-  "subscriptions": "rgba(153, 102, 255)",  // Light purple for subscriptions
+  "subscriptions": "rgba(0, 188, 212)",  // Cyan for subscriptions
 
   // Gaming category
-  "gaming": "rgba(255, 99, 71)",  // Warm red for gaming
+  "gaming": "rgba(255, 87, 34)",  // Deep orange for gaming
 
   // Restaurants category
-  "restaurants": "rgba(255, 159, 64)",  // Warm orange for restaurants
+  "restaurants": "rgba(255, 99, 132)",  // Soft red for restaurants
 
   // Cafes category
-  "cafes": "rgba(34, 193, 195)",  // Teal green for cafes
+  "cafes": "rgba(0, 150, 136)",  // Teal for cafes
 
   // Clothing category
-  "clothing": "rgba(255, 87, 34)",  // Vibrant orange for clothing
+  "clothing": "rgba(233, 30, 99)",  // Pink for clothing
 
   // Electronics category
-  "electronics": "rgba(0, 123, 255)",  // Bright blue for electronics
+  "electronics": "rgba(0, 188, 212)",  // Cyan for electronics
 
   // Accessories category
-  "accessories": "rgba(244, 67, 54)",  // Red for accessories
+  "accessories": "rgba(255, 193, 7)",  // Bright yellow for accessories
 
   // Medical category
-  "medical": "rgba(255, 99, 132)",  // Soft red for medical
+  "medical": "rgba(255, 87, 34)",  // Deep orange for medical
 
   // Fitness category
-  "fitness": "rgba(0, 123, 255)",  // Blue for fitness
+  "fitness": "rgba(76, 175, 80)",  // Light green for fitness
 
   // Insurance category
-  "insurance": "rgba(153, 102, 255)",  // Lavender for insurance
+  "insurance": "rgba(155, 39, 176)",  // Purple for insurance
 
   // Tuition category
-  "tuition": "rgba(34, 193, 195)",  // Teal green for tuition
+  "tuition": "rgba(0, 150, 136)",  // Teal for tuition
 
   // Books category
-  "books": "rgba(56, 142, 60)",  // Forest green for books
+  "books": "rgba(56, 142, 60)",  // Dark green for books
 
   // Courses category
-  "courses": "rgba(255, 159, 64)",  // Orange for courses
+  "courses": "rgba(255, 87, 34)",  // Deep orange for courses
 
   // Flights category
-  "flights": "rgba(75, 192, 192)",  // Greenish blue for flights
+  "flights": "rgba(0, 188, 212)",  // Cyan for flights
 
   // Accommodation category
   "accommodation": "rgba(255, 99, 132)",  // Soft red for accommodation
 
   // Fuel category
-  "fuel": "rgba(153, 102, 255)",  // Light purple for fuel
+  "fuel": "rgba(233, 30, 99)",  // Pink for fuel
 
   // Investments category
-  "investments": "rgba(0, 123, 255)",  // Cool blue for investments
+  "investments": "rgba(63, 81, 181)",  // Indigo blue for investments
 
   // Savings category
-  "savings": "rgba(76, 175, 80)",  // Fresh green for savings
+  "savings": "rgba(76, 175, 80)",  // Light green for savings
 
   // Mutual Funds category
-  "mutualFunds": "rgba(153, 102, 255)",  // Light purple for mutual funds
+  "mutualFunds": "rgba(155, 39, 176)",  // Purple for mutual funds
 
   // Gifts category
-  "gifts": "rgba(255, 87, 34)",  // Vibrant orange for gifts
+  "gifts": "rgba(255, 193, 7)",  // Bright yellow for gifts
 
   // Donations category
-  "donations": "rgba(54, 162, 235)",  // Blue for donations
+  "donations": "rgba(63, 81, 181)",  // Indigo blue for donations
 
   // Others category
-  "others": "rgba(255, 99, 132)",  // Soft red for others
+  "others": "rgba(233, 30, 99)",  // Pink for others
 };
