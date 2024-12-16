@@ -70,10 +70,27 @@ const transactionResolver = {
                 console.log("Error getting transaction", err);
                 throw new Error(err.message || "Error getting transaction");
             }
-        }
-
-        // TODO: add user Transaction relation
+        },
+        
+        categoroyStatistics: async(_, __ , context)=>{
+            if(!context.getUser()){
+                throw new Error("Unauthorized");
+            }
+            const userId = await context.getUser()._id;
+            const transactions = await Transactions.find({userId: userId});
             
+            const categoryMap = {};
+
+            transactions.forEach((transaction) => {
+                if(!categoryMap[transaction.category]){
+                    categoryMap[transaction.category] = 0;
+                }
+
+                categoryMap[transaction.category] += transaction.amount;
+            });
+
+            return Object.entries(categoryMap).map(([category, amount]) => ({category, totalAmount: amount}));
+        },
     }
 }
 
