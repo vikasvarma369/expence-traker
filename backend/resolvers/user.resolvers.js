@@ -61,7 +61,7 @@ const userResolver = {
                 return user;
             } catch (err) {
                 console.error("Error logging up user", err);
-                throw new Error(err.message || "Internal server error");
+                throw new Error("Invalid username or password" || err.message);
             }
         },
 
