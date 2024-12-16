@@ -1,4 +1,3 @@
-import { transactions } from "../dummyData/data.js"
 import Transactions from "../models/transaction.model.js";
 const transactionResolver = {
     Mutation:{
