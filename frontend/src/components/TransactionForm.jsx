@@ -1,6 +1,7 @@
 import { useMutation } from "@apollo/client";
 import { CREATE_TRANSACTION } from "../graphql/mutations/transaction.mutation.js";
 import { toast } from "react-hot-toast";
+import InputField from "./InputField.jsx";
 
 function TransactionForm(){
 	// TODO: relationship are added change the query
@@ -40,21 +41,7 @@ function TransactionForm(){
 			{/* TRANSACTION */}
 			<div className='flex flex-wrap'>
 				<div className='w-full'>
-					<label
-						className='block uppercase tracking-wide text-white text-xs font-bold mb-2'
-						htmlFor='description'
-					>
-						Transaction
-					</label>
-					{/* TODO: reusable input and label */}
-					<input
-						className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-						id='description'
-						name='description'
-						type='text'
-						required
-						placeholder='Rent, Groceries, Salary, etc.'
-					/>
+					<InputField label={"Transaction"} id={"description"} name={"description"} placeholder = {"Rent, Groceries, Salary, etc."} required = {true} classNameForInput = {'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'} classNameForLabel = {'block uppercase tracking-wide text-white text-xs font-bold mb-2'} /> 
 				</div>
 			</div>
 			{/* PAYMENT TYPE */}
@@ -73,8 +60,11 @@ function TransactionForm(){
 							name='paymentType'
 						>
 							{/* TODO: add more payment types */}
-							<option value={"card"}>Card</option>
-							<option value={"cash"}>Cash</option>
+							"Cash", "card", "UPI", "Net banking"
+							<option value={"Card"}>Card</option>
+							<option value={"Cash"}>Cash</option>
+							<option value={"UPI"}>UPI</option>
+							<option value={"Net banking"}>Net banking</option>
 						</select>
 						<div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700'>
 							<svg
@@ -98,14 +88,42 @@ function TransactionForm(){
 					</label>
 					<div className='relative'>
 						<select
-							className='block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+							className='block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 max-h-40 overflow-y-auto'
 							id='category'
 							name='category'
 						>
 							{/* TODO: add more categories */}
-							<option value={"saving"}>Saving</option>
-							<option value={"expense"}>Expense</option>
-							<option value={"investment"}>Investment</option>
+							<option value="food">Food</option>
+							<option value="entertainment">Entertainment</option>
+							<option value="shopping">Shopping</option>
+							<option value="groceries">Groceries</option>
+							<option value="utilities">Utilities</option>
+							<option value="transport">Transport</option>
+							<option value="rent">Rent</option>
+							<option value="maintenance">Maintenance</option>
+							<option value="movies">Movies</option>
+							<option value="subscriptions">Subscriptions</option>
+							<option value="gaming">Gaming</option>
+							<option value="restaurants">Restaurants</option>
+							<option value="cafes">Cafes</option>
+							<option value="clothing">Clothing</option>
+							<option value="electronics">Electronics</option>
+							<option value="accessories">Accessories</option>
+							<option value="medical">Medical</option>
+							<option value="fitness">Fitness</option>
+							<option value="insurance">Insurance</option>
+							<option value="tuition">Tuition</option>
+							<option value="books">Books</option>
+							<option value="courses">Courses</option>
+							<option value="flights">Flights</option>
+							<option value="accommodation">Accommodation</option>
+							<option value="fuel">Fuel</option>
+							<option value="investments">Investments</option>
+							<option value="savings">Savings</option>
+							<option value="mutualFunds">Mutual Funds</option>
+							<option value="gifts">Gifts</option>
+							<option value="donations">Donations</option>
+							<option value="others">Others</option>
 						</select>
 						<div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700'>
 							<svg
@@ -121,15 +139,14 @@ function TransactionForm(){
 
 				{/* AMOUNT */}
 				<div className='w-full flex-1 mb-6 md:mb-0'>
-					<label className='block uppercase text-white text-xs font-bold mb-2' htmlFor='amount'>
-						Amount($)
-					</label>
-					<input
-						className='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-						id='amount'
-						name='amount'
-						type='number'
-						placeholder='150'
+					<InputField 
+						label={"Amount"}
+					 	id={"amount"}
+					  name={"amount"} 
+						type={"number"} 
+						placeholder={"150"} 
+						classNameForLabel="block uppercase text-white text-xs font-bold mb-2" 
+						classNameForInput={"appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"} 
 					/>
 				</div>
 			</div>
@@ -137,33 +154,24 @@ function TransactionForm(){
 			{/* LOCATION */}
 			<div className='flex flex-wrap gap-3'>
 				<div className='w-full flex-1 mb-6 md:mb-0'>
-					<label
-						className='block uppercase tracking-wide text-white text-xs font-bold mb-2'
-						htmlFor='location'
-					>
-						Location
-					</label>
-					<input
-						className='appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
-						id='location'
-						name='location'
-						type='text'
-						placeholder='New York'
+					<InputField 
+						label={"Location"} 
+						id={"location"} 
+						name={"location"} 
+						placeholder={"Bilaspur"} 
+						classNameForLabel= {"block uppercase tracking-wide text-white text-xs font-bold mb-2"} classNameForInput={"appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"} 
 					/>
+					
 				</div>
-
 				{/* DATE */}
 				<div className='w-full flex-1'>
-					<label className='block uppercase tracking-wide text-white text-xs font-bold mb-2' htmlFor='date'>
-						Date
-					</label>
-					<input
-						type='date'
-						name='date'
-						id='date'
-						className='appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-[11px] px-4 mb-3 leading-tight focus:outline-none
-						 focus:bg-white'
-						placeholder='Select date'
+					<InputField 
+						label={"Date"} 
+						id={'date'} 
+						name={'date'} 
+						type= {'date'} 
+						placeholder = {'Select date'} 
+						classNameForLabel= {'block uppercase tracking-wide text-white text-xs font-bold mb-2'} classNameForInput={"appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"}
 					/>
 				</div>
 			</div>
