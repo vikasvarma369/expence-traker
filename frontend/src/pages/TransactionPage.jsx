@@ -2,7 +2,6 @@ import { useState, useEffect} from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_ONE_TRANSACTION_BY_ID } from "../graphql/queries/transaction.query.js";
 import { useParams, useNavigate } from "react-router-dom";
-// import { formatTimestampToDate } from "../utils/formatTimestampToDate.js";
 
 import TransactionFormSkeleton from "../Skeletons/TransactionFormSkeleton";
 import { UPDATE_TRANSACTION } from "../graphql/mutations/transaction.mutation.js";
@@ -74,7 +73,7 @@ function TransactionPage(){
 
 	return (
 		<div className='h-screen max-w-4xl mx-auto flex flex-col items-center'>
-			<p className='md:text-4xl text-2xl lg:text-4xl font-bold text-center relative z-50 mb-4 mr-4 bg-gradient-to-r from-pink-600 via-indigo-500 to-pink-400 inline-block text-transparent bg-clip-text'>
+			<p className='md:text-4xl text-2xl lg:text-4xl font-bold text-center relative z-50 mb-4 mr-4 bg-gradient-to-r from-teal-500 via-blue-600 to-teal-400 inline-block text-transparent bg-clip-text'>
 				Update this transaction
 			</p>
 			<form className='w-full max-w-lg flex flex-col gap-5 px-3 ' onSubmit={handleSubmit}>
@@ -224,7 +223,8 @@ function TransactionPage(){
 				{/* SUBMIT BUTTON */}
 				<button
 					className='text-white font-bold w-full rounded px-4 py-2 bg-gradient-to-br
-          from-pink-500 to-pink-500 hover:from-pink-600 hover:to-pink-600'
+          from-teal-300 via-blue-700 to-teal-400 hover:from-teal-600 hover:via-blue-900 hover:to-teal-700
+						disabled:opacity-70 disabled:cursor-not-allowed'
 					type='submit'
 					disabled={updateLoading}
 				>

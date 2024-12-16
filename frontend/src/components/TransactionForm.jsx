@@ -179,7 +179,7 @@ function TransactionForm(){
 			{/* SUBMIT BUTTON */}
 			<button
 				className='text-white font-bold w-full rounded px-4 py-2 bg-gradient-to-br
-          from-pink-500 to-pink-500 hover:from-pink-600 hover:to-pink-600
+          from-teal-300 via-blue-700 to-teal-400 hover:from-teal-600 hover:via-blue-900 hover:to-teal-700
 						disabled:opacity-70 disabled:cursor-not-allowed'
 				type='submit'
 			>

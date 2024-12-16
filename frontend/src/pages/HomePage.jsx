@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router';
 import { MdLogout } from "react-icons/md";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
@@ -14,6 +15,7 @@ import { GET_AUTHENTICATED_USER } from '../graphql/queries/user.query';
 import { categoryColors } from "../assets/categoryColors.js";
 ChartJS.register(ArcElement, Tooltip, Legend);
 function HomePage(){
+	const navigate = useNavigate();
 	// get user query
 	const {data: authUserData} = useQuery(GET_AUTHENTICATED_USER);
 	
@@ -76,6 +78,8 @@ function HomePage(){
 		try {
 			await logout();
 			client.resetStore(); // clear cache
+			toast.success("Logged out successfully");
+			navigate('/login');
 		} catch (error) {
 			console.log("Error logging out", error);
 			toast.error(error.message);
@@ -86,9 +90,10 @@ function HomePage(){
 		<>
 			<div className='flex flex-col gap-6 items-center max-w-7xl mx-auto z-20 relative justify-center'>
 				<div className='flex items-center'>
-					<p className='md:text-4xl text-2xl lg:text-4xl font-bold text-center relative z-50 mb-4 mr-4 bg-gradient-to-r from-pink-600 via-indigo-500 to-pink-400 inline-block text-transparent bg-clip-text'>
-						Spend wisely, track wisely
-					</p>
+				<p className='text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-center relative z-50 mb-4 mr-4 bg-gradient-to-r from-teal-500 via-blue-600 to-teal-400 inline-block text-transparent bg-clip-text'>
+				  Spend wisely, track wisely
+				</p>
+
 					<img
 						src={authUserData?.authUser?.profilePicture}
 						className='w-11 h-11 rounded-full border cursor-pointer'
