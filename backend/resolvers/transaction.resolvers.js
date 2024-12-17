@@ -50,12 +50,13 @@ const transactionResolver = {
     Query:{
         transactions: async(_, __, context)=>{
             try {
-                const userId = await context.getUser()._id;
+                const userId = await context.getUser()?._id;
                 if(!userId){
                     throw new Error("Unauthorized");
+                }else{
+                    const transactions = await Transactions.find({userId: userId});
+                    return transactions;
                 }
-                const transactions = await Transactions.find({userId: userId});
-                return transactions;
             } catch (err) {
                 console.log("Error getting transactions", err);
                 throw new Error(err.message || "Error getting transactions");
