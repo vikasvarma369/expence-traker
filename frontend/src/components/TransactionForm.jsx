@@ -59,8 +59,7 @@ function TransactionForm(){
 							id='paymentType'
 							name='paymentType'
 						>
-							{/* TODO: add more payment types */}
-							"Cash", "card", "UPI", "Net banking"
+							
 							<option value={"Card"}>Card</option>
 							<option value={"Cash"}>Cash</option>
 							<option value={"UPI"}>UPI</option>
@@ -92,7 +91,6 @@ function TransactionForm(){
 							id='category'
 							name='category'
 						>
-							{/* TODO: add more categories */}
 							<option value="food">Food</option>
 							<option value="entertainment">Entertainment</option>
 							<option value="shopping">Shopping</option>
