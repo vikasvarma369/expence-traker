@@ -66,31 +66,35 @@ const userResolver = {
         },
 
         //logout Mutation
-        logout: async(_,__,context)=>{
+        logout: async(_, __, context) => {
             try {
                 await context.logout();
-                // destroy session
-                context.req.session.destroy((err)=>{
-                    if(err){
-                        console.error("Error destroying session", err);
-                        throw err;
-                    }
+                await new Promise((resolve, reject) => {
+                    context.req.session.destroy((err) => {
+                        if (err) {
+                            reject("Error destroying session");
+                        } else {
+                            resolve();
+                        }
+                    });
                 });
-                // clear cookie
+        
                 context.res.clearCookie("connect.sid");
-                return {message: "Successfully logged out"}
+                return { message: "Successfully logged out" };
             } catch (err) {
                 console.error("Error logging out user", err);
                 throw new Error(err.message || "Internal server error");
             }
         }
+        
     },
     Query: {
         authUser: async (_, __, context)=>{
             try {
-                // get user
+                // get user based on session
                 const user = await context.getUser();
                 if(!user){
+                    // user is not authenticated , so throw an error
                     throw new Error("Unauthorized");
                 }
                 return user;

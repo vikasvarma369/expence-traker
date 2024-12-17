@@ -10,16 +10,16 @@ import { useQuery } from "@apollo/client"
 import { GET_AUTHENTICATED_USER } from "./graphql/queries/user.query.js"
 import { Toaster } from "react-hot-toast"
 import { Navigate } from "react-router-dom"
+import { LoadingSkeleton } from "./Skeletons/LoadingSkeloton.jsx"
+// import { ErrorPage } from "./pages/ErrorPage.jsx"
 function App() {
 	const {loading, data, error} = useQuery(GET_AUTHENTICATED_USER);
-	// console.log(loading);
-	// console.log(data);
-	// console.log(error);
 
 	const authUser = data?.authUser;
-	console.log(authUser);
 
-	if (loading) return <h1>Loading...</h1>;
+	if (loading) return <LoadingSkeleton />
+	// if (error) return <ErrorPage />
+
   return (
     <>
       {authUser && < Header/>}

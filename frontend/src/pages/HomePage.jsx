@@ -70,16 +70,18 @@ function HomePage(){
 	}, [data]);
 
 	// logout mutation
-	const [logout, {loading, client}] = useMutation(LOGOUT,{
+	const [logout, {loading, client, data: logoutData}] = useMutation(LOGOUT, {
 		refetchQueries: ["GetAuthenticatedUser"]
 	});
+
+	console.log("logoutData", logoutData);
 	// logout
 	const handleLogout = async() => {
 		try {
-			await logout();
-			client.resetStore(); // clear cache
-			toast.success("Logged out successfully");
-			navigate('/login');
+			await logout(); // Call the logout mutation
+			await client.resetStore(); // Clear the Apollo Client cache
+			// toast.success("Logged out successfully");
+			// navigate("/");
 		} catch (error) {
 			console.log("Error logging out", error);
 			toast.error(error.message);

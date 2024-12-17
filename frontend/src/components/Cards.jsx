@@ -7,7 +7,7 @@ function Cards(){
 	const {loading,  data} = useQuery(GET_TRANSACTIONS);
 
 	// TODO: handle loading add skeleton and also handle error
-	console.log(data);
+	// console.log(data);
 	return (
 		<div className='w-full px-10 min-h-[40vh]'>
 			<p className='text-5xl font-bold text-center my-10'>History</p>
