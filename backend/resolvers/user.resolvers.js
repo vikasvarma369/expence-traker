@@ -93,10 +93,10 @@ const userResolver = {
             try {
                 // get user based on session
                 const user = await context.getUser();
-                if(!user){
-                    // user is not authenticated , so throw an error
-                    throw new Error("Unauthorized");
-                }
+                // if(!user){
+                //     // user is not authenticated , so throw an error
+                //     throw new Error("Unauthorized");
+                // }
                 return user;
             } catch (err) {
                 console.error("Error in authUser", err);

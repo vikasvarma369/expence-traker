@@ -21,7 +21,7 @@ export const configurePassport = async()=>{
             // console.log("User deserialized:", user);
             done(null, user);
         } catch (error) {
-            console.log(error);
+            console.log("Error deserializing User", error);
             done(error);
         }
     });
@@ -30,11 +30,17 @@ export const configurePassport = async()=>{
         new GraphQLLocalStrategy(async(username, password, done)=>{
             try {
                 const user = await User.findOne({username});
-                if (!user || !(await bcrypt.compare(password, user.password))) {
-                    return done(null, false, { message: "Invalid username or password" });
-                }
-                
-                return done(null, user);
+
+                if (!user) {
+					throw new Error("Invalid username or password");
+				}
+				const validPassword = await bcrypt.compare(password, user.password);
+
+				if (!validPassword) {
+					throw new Error("Invalid username or password");
+				}
+
+				return done(null, user);
             } catch (error) {
                 return done(error);
             }

@@ -16,11 +16,15 @@ import { categoryColors } from "../assets/categoryColors.js";
 ChartJS.register(ArcElement, Tooltip, Legend);
 function HomePage(){
 	const navigate = useNavigate();
-	// get user query
-	const {data: authUserData} = useQuery(GET_AUTHENTICATED_USER);
-	
+
 	// get transaction statistics query
-	const {data} = useQuery(GET_TRANSACTION_STATISTICS);
+		const {data} = useQuery(GET_TRANSACTION_STATISTICS);
+	// get user query
+		const {data: authUserData} = useQuery(GET_AUTHENTICATED_USER);
+	// logout mutation
+		const [logout, {loading, client, data: logoutData}] = useMutation(LOGOUT, {
+			refetchQueries: ["GetAuthenticatedUser"]
+	});
 
 	// for chart
 	const [chartData, setChartData] = useState({
@@ -69,10 +73,7 @@ function HomePage(){
 		}
 	}, [data]);
 
-	// logout mutation
-	const [logout, {loading, client, data: logoutData}] = useMutation(LOGOUT, {
-		refetchQueries: ["GetAuthenticatedUser"]
-	});
+
 
 	console.log("logoutData", logoutData);
 	// logout
