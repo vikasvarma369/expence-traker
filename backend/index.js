@@ -2,7 +2,10 @@ import express from 'express';
 import http from 'http';
 import cors from 'cors';
 import { configDotenv } from "dotenv";
-import connectDb  from "./db/dbConnection.js";
+import path from 'path';
+
+// import database connection
+import connectDb from "./db/dbConnection.js";
 
 //  import Apollo Server and expressMiddleware
 import { ApolloServer } from "@apollo/server";
@@ -27,6 +30,8 @@ import mergedResolvers from "./resolvers/index.js"
 // import configure passport
 import { configurePassport } from './passport/passport.config.js'
 
+// get current directory
+const __dirname = path.resolve();
 
 // dotenv configuration
 configDotenv();
@@ -45,24 +50,24 @@ const MongoDBStore = connectMongo(session);
 
 // Create session store 
 const store = new MongoDBStore({
-    uri: process.env.MONGO_URI,
-    collection: "sessions"
+  uri: process.env.MONGO_URI,
+  collection: "sessions"
 });
 
 // Catch errors
-store.on('error', (err)=> console.log(err));
+store.on('error', (err) => console.log(err));
 
 app.use(
-    session({
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: false,
-        cookie:{
-            maxAge: 1000 * 60 * 60 * 24 * 7,
-            httpOnly: true
-        },
-        store: store,
-    })
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      httpOnly: true
+    },
+    store: store,
+  })
 )
 
 // initialize passport
@@ -71,9 +76,9 @@ app.use(passport.session());
 
 // Create Apollo Server
 const server = new ApolloServer({
-    typeDefs: mergedTypeDefs,
-    resolvers: mergedResolvers,
-    plugins: [ApolloServerPluginDrainHttpServer({httpServer})],
+  typeDefs: mergedTypeDefs,
+  resolvers: mergedResolvers,
+  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 })
 
 // Start the apollo server
@@ -82,26 +87,32 @@ await server.start();
 // Set up our Express middleware to handle CORS, body parsing,
 // and our expressMiddleware function.
 app.use(
-    '/graphql',
-    cors({
-        origin: "http://localhost:3000",
-        credentials: true,
-    }),
-    express.json(),
-    // expressMiddleware accepts the same arguments:
-    // an Apollo Server instance and optional configuration options
-    expressMiddleware(server, {
-      context: async ({req, res}) => {
-        return await buildContext({ req, res });
-      }
-    }),
-  );
+  '/graphql',
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  }),
+  express.json(),
+  // expressMiddleware accepts the same arguments:
+  // an Apollo Server instance and optional configuration options
+  expressMiddleware(server, {
+    context: async ({ req, res }) => {
+      return await buildContext({ req, res });
+    }
+  }),
+);
 
-  await new Promise((resolve) =>
-    httpServer.listen({ port: 4000 }, resolve),
-  );
+await new Promise((resolve) =>
+  httpServer.listen({ port: 4000 }, resolve),
+);
 
-  // Connect to Database
-    await connectDb();
+// serve static files
+app.use(express.static(path.join(__dirname, 'frontend/dist')));
 
-  console.log(`🚀 Server ready at http://localhost:4000/graphql`);
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend/dist/index.html'));
+})
+// Connect to Database
+await connectDb();
+
+console.log(`🚀 Server ready at http://localhost:4000/graphql`);
