@@ -103,7 +103,7 @@ app.use(
 );
 
 await new Promise((resolve) =>
-  httpServer.listen({ port: 4000 }, resolve),
+  httpServer.listen({ port: process.env.PORT || 4000 }, resolve),
 );
 
 // serve static files
