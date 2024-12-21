@@ -30,6 +30,9 @@ import mergedResolvers from "./resolvers/index.js"
 // import configure passport
 import { configurePassport } from './passport/passport.config.js'
 
+// import job
+import job from "./corn.js";
+
 // get current directory
 const __dirname = path.resolve();
 
@@ -38,6 +41,9 @@ configDotenv();
 
 // passport configuration
 configurePassport();
+
+// job start
+job.start();
 
 // Required logic for integrating with Express
 const app = express();
