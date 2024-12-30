@@ -1,6 +1,6 @@
 import {Route, Routes} from "react-router-dom"
 
-import HomePage from "./pages/HomePage.jsx"
+import DashboardHomePage from "./pages/DesboardHomePage.jsx"
 import LoginPage from "./pages/LoginPage.jsx"
 import SignUpPage from "./pages/SignUpPage.jsx"
 import TransactionPage from "./pages/TransactionPage.jsx"
@@ -10,28 +10,44 @@ import { useQuery } from "@apollo/client"
 import { GET_AUTHENTICATED_USER } from "./graphql/queries/user.query.js"
 import { Toaster } from "react-hot-toast"
 import { Navigate } from "react-router-dom"
-import { LoadingSkeleton } from "./Skeletons/LoadingSkeloton.jsx"
+import { LandingHomePage } from "./pages/LandingHomePage.jsx"
 // import { ErrorPage } from "./pages/ErrorPage.jsx"
 function App() {
 	const {loading, data, error} = useQuery(GET_AUTHENTICATED_USER);
 
 	const authUser = data?.authUser;
 
-	if (loading) return <LoadingSkeleton />
+	// if (loading) return <LoadingSkeleton />
 	// if (error) return <ErrorPage />
 
   return (
     <>
-      {authUser && < Header/>}
-			<Routes>
-				<Route path='/' element={ authUser ? <HomePage />: <Navigate to="/login" />} />
-				<Route path='/login' element={!authUser ? <LoginPage /> : <Navigate to="/" />} />
-				<Route path='/signup' element={ !authUser ? <SignUpPage /> : <Navigate to="/" />} />
-				<Route path='/transaction/:id' element={authUser ? <TransactionPage /> : <Navigate to="/login" />} />
-				<Route path='*' element={<NotFound />} />
-			</Routes>
-			<Toaster />
-    </>
+		{/* Render Header if authUser is true */}
+		{authUser && <Header />}
+
+		{/* Define application routes */}
+		<Routes>
+			{/* Default route */}
+			<Route path="/" element={authUser ? <Navigate to="/dashboard" /> : <LandingHomePage />} />
+			
+			{/* Dashboard route for authenticated users */}
+			<Route path="/dashboard" element={authUser ? <DashboardHomePage /> : <Navigate to="/" />} />
+			
+			{/* Login and Sign-up pages for unauthenticated users */}
+			<Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to="/dashboard" />} />
+			<Route path="/signup" element={!authUser ? <SignUpPage /> : <Navigate to="/dashboard" />} />
+			
+			{/* Transaction details for authenticated users */}
+			<Route path="/transaction/:id" element={authUser ? <TransactionPage /> : <Navigate to="/login" />} />
+			
+			{/* Catch-all for undefined routes */}
+			<Route path="*" element={<NotFound />} />
+		</Routes>
+		
+		{/* Notification Toaster */}
+		<Toaster />
+	</>
+
   )
 }
 

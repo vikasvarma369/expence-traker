@@ -57,7 +57,7 @@ function TransactionPage(){
 				}
 			})
 			toast.success("Transaction updated successfully");
-			navigate("/");
+			navigate("/dashboard");
 		} catch (error) {
 			toast.error(error.message);
 		}
@@ -240,14 +240,13 @@ function TransactionPage(){
 				</div>
 				{/* SUBMIT BUTTON */}
 				<button
-					className='text-white font-bold w-full rounded px-4 py-2 bg-gradient-to-br
-          from-teal-300 via-blue-700 to-teal-400 hover:from-teal-600 hover:via-blue-900 hover:to-teal-700
-						disabled:opacity-70 disabled:cursor-not-allowed'
+					className="w-full bg-gradient-to-r from-pink-500 to-blue-500 text-white font-medium py-2 px-4 rounded-md hover:from-pink-600 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:ring-offset-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
 					type='submit'
 					disabled={updateLoading}
 				>
 					{updateLoading ? "Updating..." : "Update Transaction"}
 				</button>
+
 			</form>
 		</div>
 	);
