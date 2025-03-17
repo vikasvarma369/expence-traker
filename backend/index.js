@@ -30,8 +30,10 @@ import mergedResolvers from "./resolvers/index.js"
 // import configure passport
 import { configurePassport } from './passport/passport.config.js'
 
+
+// Render suspend my services thats why i commented this code
 // import job
-import job from "./corn.js";
+// import job from "./corn.js";
 
 // get current directory
 const __dirname = path.resolve();
@@ -42,8 +44,9 @@ configDotenv();
 // passport configuration
 configurePassport();
 
+// Render suspend my services thats why i commented this code
 // job start
-job.start();
+// job.start();
 
 // Required logic for integrating with Express
 const app = express();
