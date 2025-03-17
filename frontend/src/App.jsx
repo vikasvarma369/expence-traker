@@ -13,7 +13,7 @@ import { Navigate } from "react-router-dom"
 import { LandingHomePage } from "./pages/LandingHomePage.jsx"
 // import { ErrorPage } from "./pages/ErrorPage.jsx"
 function App() {
-	const {loading, data, error} = useQuery(GET_AUTHENTICATED_USER);
+	const { data } = useQuery(GET_AUTHENTICATED_USER);
 
 	const authUser = data?.authUser;
 

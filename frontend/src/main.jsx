@@ -8,7 +8,6 @@ import GridBackground from './components/UI/GridBackground.jsx'
 import { ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
 
 const client = new ApolloClient({
-  // TODO: update the uri on production
   uri: import.meta.env.VITE_NODE_ENV === 'development' ? import.meta.env.VITE_GRAPHQL_SERVER_URI : '/graphql',
   cache: new InMemoryCache(),
   credentials: 'include'
